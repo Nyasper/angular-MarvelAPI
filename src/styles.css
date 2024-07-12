@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+/* Efectos 
+  https://youtu.be/Xc6G3oV24yE
+
+  a usar: 
+  
+  scroll-snap
+  container: scroll-snap-type: xproximity o mandatory
+  childrends: scroll-snap-align: center;
+
+  redimencionar el -cambiar el tamaño de caja
+  resize: both;
+
+  cancelar seleccion del texto e interaccion del usuario con elementos:
+  pointer-events: none;
+  se puede combinar con opacity: 0; para hacer animaciones de entradas etc.
+
+  usar medidas dvh Y svh(dyinamic viewport horizontal), video: https://youtu.be/ru3U8MHbFFI
+
+*/
+:root {
+  --redWhite-gradient: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 26, 26, 1) 100%
+  );
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 48px;
+  text-align: center;
+}
+
+li {
+  list-style: none;
+}
+
+.decorateTextGradient {
+  background: rgb(255, 255, 255);
+  background: var(--redWhite-gradient);
+
+  color: transparent;
+  background-clip: text;
+}

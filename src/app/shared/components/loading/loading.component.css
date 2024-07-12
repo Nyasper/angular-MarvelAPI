@@ -1,0 +1,7 @@
+#loadingSpinnerContainer {
+  position: absolute;
+  top: 45%;
+  left: 47.5%;
+  width: max-content;
+  margin: 0 auto;
+}

@@ -1,0 +1,11 @@
+@if(loading()) {
+<app-loading />
+} @else {
+<ul>
+  @for (item of itemsList(); track $index) {
+  <app-item [itemInfo]="item" />
+  }
+</ul>
+<app-pagination />
+<app-footer />
+}
