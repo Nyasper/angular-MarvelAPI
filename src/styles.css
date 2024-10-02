@@ -17,6 +17,7 @@
   usar medidas dvh Y svh(dyinamic viewport horizontal), video: https://youtu.be/ru3U8MHbFFI
 
 */
+
 :root {
   --redWhite-gradient: linear-gradient(
     0deg,
@@ -25,9 +26,28 @@
   );
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(15, 59, 59);
+  min-height: 100vh;
+}
+
+#mainContainer {
+  grid-template-rows: 70px auto 40px;
+  grid-template-columns: auto;
+  /* background-color: pink; */
+  display: grid;
+  height: 100%;
 }
 
 h1 {

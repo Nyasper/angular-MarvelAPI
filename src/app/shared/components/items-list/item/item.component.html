@@ -1,12 +1,21 @@
-@defer (on idle) {
 <li class="itemContainer">
   <p>{{ itemInfo().name }}</p>
   <a [routerLink]="[itemInfo().id]">
     <img [src]="itemImageSrc()" [alt]="itemInfo().name" />
   </a>
 </li>
-} @placeholder (minimum 1s){
+
+<!-- 
+@defer (prefetch on immediate) {
+<li class="itemContainer">
+  <p>{{ itemInfo().name }}</p>
+  <a [routerLink]="[itemInfo().id]">
+    <img [src]="itemImageSrc()" [alt]="itemInfo().name" />
+  </a>
+</li>
+} @placeholder (){
 <li>
   <p-skeleton size="180px" styleClass="mr-2" />
 </li>
 }
+-->

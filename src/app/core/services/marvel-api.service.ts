@@ -38,7 +38,8 @@ export class MarvelAPIService {
 
   private readonly completeUrl: URL = new URL(`${this.baseUrl}/$replace`);
 
-  private readonly _footerContent = signal<string>('');
+  private _footerContent: string = '';
+
   constructor() {
     // mandatory parameters
     this.completeUrl.searchParams.set('ts', this.timeStamp);
@@ -46,14 +47,13 @@ export class MarvelAPIService {
     this.completeUrl.searchParams.set('hash', this.hash);
   }
 
-  private getData<ResultType extends MarvelApiResultTypes>(getDataParams: {
-    dataType: MarvelApiDatatypes;
-    pageNum: number;
-    order: allOrderTypes;
-  }): Signal<MarvelApiCharactersInterface<ResultType>> {
-    const { dataType, order } = getDataParams;
-    const pageNum: number = 1;
-    const limit: number = 20;
+  // internal generic method for fetch data
+  private getData<ResultType extends MarvelApiResultTypes>(
+    getDataParams: getDataParamsInterface
+  ): Signal<MarvelApiCharactersInterface<ResultType>> {
+    const { dataType, order, pageNum } = getDataParams;
+    // const pageNum: number = 1;
+    const limit: number = 50;
 
     this._loadingService.startLoading();
 
@@ -73,14 +73,14 @@ export class MarvelAPIService {
         }),
 
         finalize(() => {
-          // obs.subscribe((el) => {
-          //   this._footerContent.set(el.attributionText);
-          // });
-
+          this._footerContent = result().copyright;
           this._loadingService.stopLoading();
         })
       );
-    return toSignal(obs) as Signal<MarvelApiCharactersInterface<ResultType>>;
+    const result = toSignal(obs) as Signal<
+      MarvelApiCharactersInterface<ResultType>
+    >;
+    return result;
   }
 
   private getDataById<ResultType extends MarvelApiResultTypes>(
@@ -115,15 +115,11 @@ export class MarvelAPIService {
       pageNum,
       order,
     });
-    return computed(() => {
-      return dataSignal()?.data?.results;
-    });
+    return computed(() => dataSignal()?.data?.results);
   }
   // public getCharacter(characterId: number): Signal<CharactersResult> {
   // const dataSignal = this.getData<CharactersResult>('characters', 1);
-  // return computed(() => {
-  //   return dataSignal()?.data?.results[0];
-  // });
+  // return computed(() => dataSignal()?.data?.results[0]);
   // }
 
   public getSeries(
@@ -135,9 +131,7 @@ export class MarvelAPIService {
       pageNum,
       order,
     });
-    return computed(() => {
-      return dataSignal()?.data?.results;
-    });
+    return computed(() => dataSignal()?.data?.results);
   }
 
   public getComics(
@@ -149,9 +143,7 @@ export class MarvelAPIService {
       pageNum,
       order,
     });
-    return computed(() => {
-      return dataSignal()?.data?.results;
-    });
+    return computed(() => dataSignal()?.data?.results);
   }
 
   public getEvents(
@@ -163,12 +155,16 @@ export class MarvelAPIService {
       pageNum,
       order,
     });
-    return computed(() => {
-      return dataSignal()?.data?.results;
-    });
+    return computed(() => dataSignal()?.data?.results);
   }
 
   public get footerContent() {
-    return this._footerContent.asReadonly();
+    return this._footerContent;
   }
+}
+
+interface getDataParamsInterface {
+  dataType: MarvelApiDatatypes;
+  pageNum: number;
+  order: allOrderTypes;
 }

@@ -1,20 +1,21 @@
-import { Component, Signal, computed, inject } from '@angular/core';
+import { Component, computed, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-character-details',
+  selector: 'app-details',
   standalone: true,
   imports: [],
-  templateUrl: './character-details.component.html',
-  styleUrl: './character-details.component.css',
+  templateUrl: './details.component.html',
+  styleUrl: './details.component.css',
 })
-export class CharacterDetailsComponent {
+export class DetailsComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   routeParam: Signal<string>;
 
   constructor() {
     const obs = toSignal(this.route.paramMap);
     this.routeParam = computed(() => obs()?.get('id') ?? '');
+    console.log('el id es:', this.routeParam());
   }
 }

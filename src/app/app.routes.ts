@@ -1,5 +1,7 @@
 import type { Routes } from '@angular/router';
 
+const defaultParams = '?page=1&order=name';
+
 export const routes: Routes = [
   {
     path: '',

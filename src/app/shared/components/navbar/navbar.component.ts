@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import type { NavBarItemsInterface } from '../../../core/models/navbarItemsInterface';
 import { NavItemComponent } from './nav-item/nav-item.component';
 import { MenubarModule } from 'primeng/menubar';
 import type { MenuItem } from 'primeng/api';
+import type { CharactersOrderBy } from '../../../core/models/marvelApiInterface';
 
 @Component({
   selector: 'app-navbar',
@@ -12,23 +12,22 @@ import type { MenuItem } from 'primeng/api';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  public navBarItemsData: MenuItem[] = [
+  private readonly defaultParams = {
+    page: 1,
+    order: 'name',
+  };
+
+  public readonly navBarItemsData: MenuItem[] = [
     { label: 'home', routerLink: '/' },
     {
       label: 'characters',
-      items: [
-        {
-          label: 'byName',
-          routerLink: 'characters',
-        },
-      ],
+      routerLink: 'characters',
+      queryParams: this.defaultParams,
     },
-    { label: 'series', routerLink: 'series' },
-    { label: 'comics', routerLink: 'comics' },
-    { label: 'events', routerLink: 'events' },
+    { label: 'series', routerLink: 'series', queryParams: this.defaultParams },
+    { label: 'comics', routerLink: 'comics', queryParams: this.defaultParams },
+    { label: 'events', routerLink: 'events', queryParams: this.defaultParams },
     { label: 'about', routerLink: 'about' },
     { label: 'otro', items: [{ label: 'subMenu1' }] },
-    // { name: 'characters', path: 'characters' },
-    // { name: 'about', path: 'about' },
   ];
 }

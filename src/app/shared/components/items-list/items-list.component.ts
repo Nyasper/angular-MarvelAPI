@@ -1,20 +1,23 @@
 import {
   Component,
   computed,
-  effect,
   inject,
   input,
+  effect,
   Signal,
 } from '@angular/core';
 import { ItemComponent } from './item/item.component';
 import type { ItemList } from '../../../core/models/itemsListInteface';
 
 import { LoadingService } from '../../../core/services/loading.service';
+import { PaginatorService } from '../../../core/services/paginator.service';
 import { FooterComponent } from '../footer/footer.component';
-import { PaginationComponent } from '../pagination/pagination.component';
 import { LoadingComponent } from '../loading/loading.component';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import type { Params } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { CharactersResult } from '../../../core/models/marvelApiInterface';
 
 @Component({
   selector: 'app-items-list',
@@ -23,44 +26,27 @@ import { toSignal } from '@angular/core/rxjs-interop';
     ItemComponent,
     FooterComponent,
     LoadingComponent,
-    PaginationComponent,
+    InfiniteScrollDirective,
   ],
   templateUrl: './items-list.component.html',
   styleUrl: './items-list.component.css',
 })
 export class ItemsListComponent {
-  itemsList = input.required<ItemList[]>();
-
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
-  public readonly orderByParam: Signal<string>;
-  public readonly pageNumParam: Signal<number>;
-
+  private readonly router: Router = inject(Router);
   private readonly _loadingService: LoadingService = inject(LoadingService);
+  private readonly _paginatorService: PaginatorService =
+    inject(PaginatorService);
+
+  // public readonly orderByParam: Signal<string>;
+  // public readonly pageNumParam: Signal<number>;
+
+  itemsList = input.required<ItemList[]>();
+  getDataFunction = input<(pageNumber: number) => Signal<CharactersResult[]>>();
   loading = this._loadingService.loading;
 
-  constructor() {
-    const obs = toSignal(this.route.paramMap);
-    this.orderByParam = computed(() => obs()?.get('order') ?? '');
-    this.pageNumParam = this.managePageNumberParam(obs);
-
-    effect(() => {
-      console.log('El orden es:', this.orderByParam());
-      console.log('El page num es:', this.pageNumParam());
-    });
-  }
-
-  private managePageNumberParam(
-    obs: Signal<ParamMap | undefined>
-  ): Signal<number> {
-    return computed(() => {
-      if (
-        obs() &&
-        obs()?.get('page')?.length &&
-        typeof Number(obs()?.get('page')) === 'number'
-      ) {
-        return Number(obs()?.get('page')) > 0 ? Number(obs()?.get('page')) : 1;
-      }
-      return 1;
-    });
+  onScroll() {
+    console.log('ejecutando on scroll');
+    this._paginatorService.nextPage();
   }
 }

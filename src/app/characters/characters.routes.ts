@@ -1,12 +1,12 @@
 import type { Routes } from '@angular/router';
 import { CharactersComponent } from './characters.component';
-import { CharacterDetailsComponent } from './character-details/character-details.component';
+import { DetailsComponent } from '../details/details.component';
 
 export const CHARACTERS_ROUTES: Routes = [
   {
-    path: '?order=nameDesc&page=1',
+    path: '',
     component: CharactersComponent,
     title: 'characters',
   },
-  { path: ':id', component: CharacterDetailsComponent },
+  { path: ':id', component: DetailsComponent },
 ];

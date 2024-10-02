@@ -1,11 +1,19 @@
 @if(loading()) {
 <app-loading />
 } @else {
-<ul>
+<ul
+  infiniteScroll
+  (scrolled)="onScroll()"
+  [scrollWindow]="true"
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="0"
+  [alwaysCallback]="false"
+>
   @for (item of itemsList(); track $index) {
   <app-item [itemInfo]="item" />
   }
 </ul>
-<app-pagination />
+<!-- <button (click)="addOnePage()">Cambiar page</button> -->
+<!-- <button (click)="changeSortOrder('age')">Cambiar page</button> -->
 <app-footer />
 }

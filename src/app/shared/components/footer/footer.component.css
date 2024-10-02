@@ -1,5 +1,16 @@
 footer {
-  width: 100%;
-  margin-top: 20px;
+  /* margin-top: 20px; */
+  padding: 5px 10px;
   text-align: end;
+  position: relative;
+  background-color: brown;
+}
+
+footer p {
+  position: absolute;
+  z-index: 5;
+  top: 14px;
+  right: 25px;
+  width: max-content;
+  margin-left: auto;
 }
