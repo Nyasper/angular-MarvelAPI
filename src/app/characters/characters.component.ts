@@ -1,10 +1,18 @@
-import { Component, OnInit, Signal, inject, signal } from '@angular/core';
+import {
+  Component,
+  Signal,
+  WritableSignal,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { ItemsListComponent } from '../shared/components/items-list/items-list.component';
 import { MarvelAPIService } from '../core/services/marvel-api.service';
 import type { ItemList } from '../core/models/itemsListInteface';
 import { ItemMapperService } from '../core/services/item-mapper.service';
 import { ActivatedRoute } from '@angular/router';
 import { CharactersResult } from '../core/models/marvelApiInterface';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-characters',
@@ -18,25 +26,30 @@ export class CharactersComponent {
   private _itemDataMapper: ItemMapperService = inject(ItemMapperService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
 
+  private routeParamSignal = toSignal(this.route.queryParams);
+  private readonly initialPageNum = this.routeParamSignal()!['page'] ?? '1';
   private _data: Signal<CharactersResult[]> =
-    this._marvelApiService.getCharacters(1);
+    this._marvelApiService.getCharacters(this.initialPageNum);
 
   public itemsInfo: Signal<ItemList[]> =
     this._itemDataMapper.CharactersToItemList(this._data);
 
-  public sendData(pageNumber: number) {
-    return this._marvelApiService.getCharacters(pageNumber);
-  }
+  // public sendData(pageNumber: number) {
+  //   return this._marvelApiService.getCharacters(pageNumber);
+  // }
+
   onScroll() {
     // const page2 = this._marvelApiService.getCharacters(2);
     console.log('llego desde el generico el numPage:');
   }
 
   constructor() {
-    // effect(() => {
-    //   this.route.queryParams.subscribe((param) =>
-    //     console.log('los params de character no mapa:', param)
-    //   );
-    // });
+    effect(
+      () => {
+        const pageNum: string = this.routeParamSignal()!['page'] ?? '1';
+        console.log({ pageNum });
+      },
+      { allowSignalWrites: true }
+    );
   }
 }

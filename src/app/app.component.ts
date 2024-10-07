@@ -1,14 +1,15 @@
-import { Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
-import { NavbarComponent } from "./shared/components/navbar/navbar.component";
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { ProgressBarComponent } from './shared/components/progress-bar/progress-bar.component';
 
 @Component({
-  selector: "app-root",
+  selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NavbarComponent],
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.css",
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = "marvel-api-database";
+  title = 'marvel-api-database';
 }

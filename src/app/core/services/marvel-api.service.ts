@@ -30,6 +30,9 @@ export class MarvelAPIService {
   private readonly _http: HttpClient = inject(HttpClient);
   private readonly _loadingService: LoadingService = inject(LoadingService);
 
+  private readonly perPage: number = 100; //items per page
+  private readonly mode: FetchMode = 'local';
+
   private readonly baseUrl: string = 'https://gateway.marvel.com/v1/public';
   private readonly timeStamp: string = '2';
 
@@ -49,23 +52,14 @@ export class MarvelAPIService {
 
   // internal generic method for fetch data
   private getData<ResultType extends MarvelApiResultTypes>(
-    getDataParams: getDataParamsInterface
+    dataParams: getDataParamsInterface
   ): Signal<MarvelApiCharactersInterface<ResultType>> {
-    const { dataType, order, pageNum } = getDataParams;
-    // const pageNum: number = 1;
-    const limit: number = 50;
-
     this._loadingService.startLoading();
 
     // update URL with parameters
-    const urlModified = new URL(this.completeUrl);
-    urlModified.pathname = urlModified.pathname.replace('$replace', dataType);
-
-    urlModified.searchParams.set('orderBy', order);
-    urlModified.searchParams.set('limit', limit.toString());
-    urlModified.searchParams.set('offset', `${limit * (pageNum - 1)}`);
+    const url: string = this.handleUrl(dataParams);
     const obs: Observable<MarvelApiCharactersInterface<ResultType>> = this._http
-      .get<MarvelApiCharactersInterface<ResultType>>(urlModified.href)
+      .get<MarvelApiCharactersInterface<ResultType>>(url)
       .pipe(
         catchError((error) => {
           console.error('Error fetching images', error);
@@ -117,10 +111,6 @@ export class MarvelAPIService {
     });
     return computed(() => dataSignal()?.data?.results);
   }
-  // public getCharacter(characterId: number): Signal<CharactersResult> {
-  // const dataSignal = this.getData<CharactersResult>('characters', 1);
-  // return computed(() => dataSignal()?.data?.results[0]);
-  // }
 
   public getSeries(
     pageNum: number = 1,
@@ -161,6 +151,23 @@ export class MarvelAPIService {
   public get footerContent() {
     return this._footerContent;
   }
+
+  private handleUrl(dataParams: getDataParamsInterface): string {
+    const limit = this.perPage;
+    const { dataType, order, pageNum } = dataParams;
+
+    if (this.mode === 'local') return `data/${dataType}/page_${pageNum}.json`;
+
+    const urlModified = new URL(this.completeUrl);
+    urlModified.pathname = urlModified.pathname.replace('$replace', dataType);
+
+    urlModified.searchParams.set('orderBy', order);
+    urlModified.searchParams.set('limit', `${limit}`);
+    urlModified.searchParams.set('page', `${pageNum}`);
+    urlModified.searchParams.set('offset', `${limit * (pageNum - 1)}`);
+
+    return urlModified.href;
+  }
 }
 
 interface getDataParamsInterface {
@@ -168,3 +175,4 @@ interface getDataParamsInterface {
   pageNum: number;
   order: allOrderTypes;
 }
+type FetchMode = 'URL' | 'local';
