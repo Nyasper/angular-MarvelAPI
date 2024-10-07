@@ -32,8 +32,8 @@ import { CharactersResult } from '../../../core/models/marvelApiInterface';
   styleUrl: './items-list.component.css',
 })
 export class ItemsListComponent {
-  private readonly route: ActivatedRoute = inject(ActivatedRoute);
-  private readonly router: Router = inject(Router);
+  // private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  // private readonly router: Router = inject(Router);
   private readonly _loadingService: LoadingService = inject(LoadingService);
   private readonly _paginatorService: PaginatorService =
     inject(PaginatorService);

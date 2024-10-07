@@ -6,7 +6,7 @@ import { Injectable, signal } from '@angular/core';
 export class PaginatorServiceService {
   private readonly _pageData = signal<pageDataInterface>({
     currentPage: 1,
-    itemsPerPage: 10,
+    itemsPerPage: 100,
     totalItems: 0,
   });
 
