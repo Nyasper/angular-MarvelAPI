@@ -16,7 +16,7 @@ import type {
 import { Observable, catchError, finalize } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { LoadingService } from './loading.service';
-
+import { PaginatorService } from './paginator.service';
 type allOrderTypes =
   | CharactersOrderBy
   | SeriesOrderBy
@@ -29,9 +29,10 @@ type allOrderTypes =
 export class MarvelAPIService {
   private readonly _http: HttpClient = inject(HttpClient);
   private readonly _loadingService: LoadingService = inject(LoadingService);
+  private readonly _paginatorService: PaginatorService =
+    inject(PaginatorService);
 
-  private readonly perPage: number = 100; //items per page
-  private readonly mode: FetchMode = 'local';
+  private readonly mode: FetchMode = 'URL';
 
   private readonly baseUrl: string = 'https://gateway.marvel.com/v1/public';
   private readonly timeStamp: string = '2';
@@ -69,11 +70,20 @@ export class MarvelAPIService {
         finalize(() => {
           this._footerContent = result().copyright;
           this._loadingService.stopLoading();
+          const { count, limit, offset, total } = result().data;
+          this._paginatorService.pageInfo = {
+            offset,
+            pageNumber: offset / limit + 1,
+            itemsPerPage: limit,
+            totalItems: total,
+            hasNextPage: offset + count < total,
+          };
         })
       );
     const result = toSignal(obs) as Signal<
       MarvelApiCharactersInterface<ResultType>
     >;
+
     return result;
   }
 
@@ -101,13 +111,10 @@ export class MarvelAPIService {
   }
 
   public getCharacters(
-    pageNum: number = 1,
     order: CharactersOrderBy = 'name'
   ): Signal<CharactersResult[]> {
     const dataSignal = this.getData<CharactersResult>({
       dataType: 'characters',
-      pageNum,
-      order,
     });
     return computed(() => dataSignal()?.data?.results);
   }
@@ -118,8 +125,6 @@ export class MarvelAPIService {
   ): Signal<SeriesResult[]> {
     const dataSignal = this.getData<SeriesResult>({
       dataType: 'series',
-      pageNum,
-      order,
     });
     return computed(() => dataSignal()?.data?.results);
   }
@@ -130,8 +135,6 @@ export class MarvelAPIService {
   ): Signal<ComicsResult[]> {
     const dataSignal = this.getData<ComicsResult>({
       dataType: 'comics',
-      pageNum,
-      order,
     });
     return computed(() => dataSignal()?.data?.results);
   }
@@ -140,11 +143,7 @@ export class MarvelAPIService {
     pageNum: number = 1,
     order: EventsOrderBy = 'name'
   ): Signal<EventsResult[]> {
-    const dataSignal = this.getData<EventsResult>({
-      dataType: 'events',
-      pageNum,
-      order,
-    });
+    const dataSignal = this.getData<EventsResult>({ dataType: 'events' });
     return computed(() => dataSignal()?.data?.results);
   }
 
@@ -153,26 +152,26 @@ export class MarvelAPIService {
   }
 
   private handleUrl(dataParams: getDataParamsInterface): string {
-    const limit = this.perPage;
-    const { dataType, order, pageNum } = dataParams;
+    const { pageNumber, itemsPerPage, offset } =
+      this._paginatorService.pageInfo();
+    const { dataType } = dataParams;
 
-    if (this.mode === 'local') return `data/${dataType}/page_${pageNum}.json`;
+    if (this.mode === 'local')
+      return `data/${dataType}/page_${pageNumber}.json`;
 
     const urlModified = new URL(this.completeUrl);
     urlModified.pathname = urlModified.pathname.replace('$replace', dataType);
 
-    urlModified.searchParams.set('orderBy', order);
-    urlModified.searchParams.set('limit', `${limit}`);
-    urlModified.searchParams.set('page', `${pageNum}`);
-    urlModified.searchParams.set('offset', `${limit * (pageNum - 1)}`);
-
+    // urlModified.searchParams.set('orderBy', order);
+    urlModified.searchParams.set('limit', `${itemsPerPage}`);
+    urlModified.searchParams.set('offset', `${offset}`);
+    // urlModified.searchParams.set('page', `${pageNumber}`);
+    // old offset ${limit * (pageNum - 1)}
     return urlModified.href;
   }
 }
 
 interface getDataParamsInterface {
   dataType: MarvelApiDatatypes;
-  pageNum: number;
-  order: allOrderTypes;
 }
 type FetchMode = 'URL' | 'local';

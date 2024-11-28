@@ -8,63 +8,54 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import type { PageInfo } from '../models/pageInfo.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PaginatorService {
-  private _pageNumberState = signal<number>(1);
-  private readonly orderByParam: string = '';
-  private readonly pageNumParam: number = 1;
-
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly router: Router = inject(Router);
 
-  constructor() {
-    // url param
-    const queryParamsSignal = toSignal(this.route.queryParams);
-    this.orderByParam = queryParamsSignal()?.['order'] ?? 'name';
+  private readonly queryParams = toSignal(this.route.queryParams); //query params signal
 
-    this.pageNumParam = this.managePageNumberParam(queryParamsSignal);
-    this._pageNumberState.set(this.pageNumParam);
+  private readonly _pageInfo = signal<PageInfo>({
+    pageNumber: this.pageNumberParamHandler(),
+    totalItems: 0,
+    itemsPerPage: 20,
+    offset: 0,
+    hasNextPage: true,
+  });
 
-    effect(() => {
-      this.updateUrlParam();
-    });
+  public get pageInfo(): Signal<PageInfo> {
+    return this._pageInfo.asReadonly();
+  }
+  public set pageInfo(value: PageInfo) {
+    console.log('estableciendo', value.pageNumber);
+    this._pageInfo.set(value);
   }
 
-  public nextPage() {
-    this._pageNumberState.update((page) => page + 1);
-  }
-
-  public previousPage() {
-    this._pageNumberState.update((page) => page - 1);
-  }
-
-  public set pageNumberState(value: number) {
-    this._pageNumberState.set(value);
-  }
-
-  public get pageNumberState(): Signal<number> {
-    return this._pageNumberState.asReadonly();
-  }
-
-  private updateUrlParam(): void {
+  public updateUrlParam(page: string): void {
     this.router.navigate([], {
       relativeTo: this.route, // Mantiene la ruta actual
       queryParamsHandling: 'merge', // no reemplaza los demas parametros
       queryParams: {
-        page: this._pageNumberState(),
+        page,
       },
     });
   }
 
-  private managePageNumberParam(
-    queryParamsSignal: Signal<Params | undefined>
-  ): number {
-    const pageParam: string = queryParamsSignal()?.['page'] ?? '1';
+  public navigateTo(url: string) {
+    this.router.navigateByUrl('/characters?page=222');
+  }
 
-    const pageNumber = Number(pageParam);
-    return !isNaN(pageNumber) && pageNumber > 0 ? pageNumber : 1;
+  private pageNumberParamHandler(): number {
+    const pageParam: string = this.queryParams()?.['page'] ?? '1';
+
+    const pageNumber: number = Number(pageParam);
+    const isValidPageParam: boolean = !isNaN(pageNumber) && pageNumber > 0;
+    if (!isValidPageParam) this.updateUrlParam('1');
+
+    return isValidPageParam ? pageNumber : 1;
   }
 }

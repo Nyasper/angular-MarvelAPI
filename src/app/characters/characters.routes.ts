@@ -1,6 +1,6 @@
 import type { Routes } from '@angular/router';
 import { CharactersComponent } from './characters.component';
-import { DetailsComponent } from '../details/details.component';
+import { ItemDetailsComponent } from '../shared/components/item-details/item-details.component';
 
 export const CHARACTERS_ROUTES: Routes = [
   {
@@ -8,5 +8,5 @@ export const CHARACTERS_ROUTES: Routes = [
     component: CharactersComponent,
     title: 'characters',
   },
-  { path: ':id', component: DetailsComponent },
+  { path: ':id', component: ItemDetailsComponent },
 ];

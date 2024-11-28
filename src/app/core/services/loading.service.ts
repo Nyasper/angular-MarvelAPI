@@ -8,7 +8,7 @@ export class LoadingService {
   private _progress = signal<number>(0);
 
   constructor() {
-    effect(() => console.log('progreso:', this._progress()));
+    effect(() => console.log(`loading: ${this._progress()}%`));
   }
   public get progress() {
     return this._progress.asReadonly();

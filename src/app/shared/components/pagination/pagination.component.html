@@ -1,1 +1,8 @@
-<p-paginator [pageLinkSize]="6" [showPageLinks]="true"></p-paginator>
+<p-paginator
+  [first]="pageInfo().offset"
+  [rows]="pageInfo().itemsPerPage"
+  [totalRecords]="pageInfo().totalItems"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 22]"
+  (onPageChange)="onPageChange($event)"
+></p-paginator>

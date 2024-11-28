@@ -13,9 +13,6 @@ import { LoadingService } from '../../../core/services/loading.service';
 import { PaginatorService } from '../../../core/services/paginator.service';
 import { FooterComponent } from '../footer/footer.component';
 import { LoadingComponent } from '../loading/loading.component';
-import { Router, ActivatedRoute } from '@angular/router';
-import type { Params } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { CharactersResult } from '../../../core/models/marvelApiInterface';
 
@@ -47,6 +44,6 @@ export class ItemsListComponent {
 
   onScroll() {
     console.log('ejecutando on scroll');
-    this._paginatorService.nextPage();
+    // this._paginatorService.nextPage();
   }
 }

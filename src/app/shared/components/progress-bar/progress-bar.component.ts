@@ -11,10 +11,5 @@ import { LoadingService } from '../../../core/services/loading.service';
 })
 export class ProgressBarComponent {
   private readonly _loadingService: LoadingService = inject(LoadingService);
-
   public progress = this._loadingService.progress;
-
-  constructor() {
-    console.log('si anda progre');
-  }
 }
