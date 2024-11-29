@@ -31,7 +31,6 @@ export class PaginatorService {
     return this._pageInfo.asReadonly();
   }
   public set pageInfo(value: PageInfo) {
-    console.log('estableciendo', value.pageNumber);
     this._pageInfo.set(value);
   }
 

@@ -4,7 +4,6 @@ import { PaginationComponent } from '../pagination/pagination.component';
 
 @Component({
   selector: 'app-footer',
-  standalone: true,
   imports: [PaginationComponent],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css',

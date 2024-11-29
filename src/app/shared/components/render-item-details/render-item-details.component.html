@@ -1,0 +1,18 @@
+<h2>Aca renderizando los detalle</h2>
+
+@if (keysToRenderI().comics) {
+<h2>Comics: {{ comics().available }}</h2>
+<ul>
+  @for (comic of comics().items; track comic.name) {
+  <li>{{ comic.name }}</li>
+  }
+</ul>
+}
+<!-- @if (keysToRenderI().series) {
+<h2>Renderizando series</h2>
+<ul>
+  @for (key of series(); track key) {
+  <li>{{ key }}</li>
+  }
+</ul>
+} -->

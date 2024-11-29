@@ -5,7 +5,6 @@ import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-item',
-  standalone: true,
   imports: [RouterLink, SkeletonModule],
   templateUrl: './item.component.html',
   styleUrl: './item.component.css',

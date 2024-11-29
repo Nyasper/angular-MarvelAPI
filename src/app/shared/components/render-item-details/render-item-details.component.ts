@@ -6,28 +6,27 @@ import {
   input,
   Signal,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MarvelAPIService } from '../../../core/services/marvel-api.service';
-import { Comics } from '../../../core/models/marvelApiInterface';
+import {
+  Characters,
+  Comics,
+  Creators,
+  Series,
+} from '../../../core/models/marvelApiInterface';
 
 @Component({
-  selector: 'app-item-details',
+  selector: 'app-render-item-details',
   imports: [],
-  templateUrl: './item-details.component.html',
-  styleUrl: './item-details.component.css',
+  templateUrl: './render-item-details.component.html',
+  styleUrl: './render-item-details.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemDetailsComponent {
+export class RenderItemDetailsComponent {
   public readonly data = input.required<any>();
-
-  public readonly propToRender = input<KeysToRender>({
+  public readonly keysToRenderI = input<KeysToRender>({
     characters: false,
     comics: false,
     series: false,
     events: false,
-    stories: false,
-    creators: false,
-    urls: true,
   });
 
   public comics: Signal<Comics> = computed(() => this.data().comics);
@@ -49,11 +48,8 @@ export class ItemDetailsComponent {
   ];
 }
 interface KeysToRender {
-  characters?: boolean;
+  characters: boolean;
   comics?: boolean;
   series?: boolean;
   events?: boolean;
-  stories?: boolean;
-  creators?: boolean;
-  urls: boolean;
 }

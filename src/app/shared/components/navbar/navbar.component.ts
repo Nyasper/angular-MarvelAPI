@@ -7,8 +7,7 @@ import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true,
-  imports: [NavItemComponent, MenubarModule, ProgressBarComponent],
+  imports: [MenubarModule, ProgressBarComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

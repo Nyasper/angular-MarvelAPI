@@ -1,27 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Signal, computed, inject, signal } from '@angular/core';
+import { Injectable, Signal, inject } from '@angular/core';
 import type {
   MarvelApiDatatypes,
   MarvelApiCharactersInterface,
   MarvelApiResultTypes,
-  CharactersResult,
-  SeriesResult,
-  ComicsResult,
-  EventsResult,
-  CharactersOrderBy,
-  SeriesOrderBy,
-  ComicsOrderBy,
-  EventsOrderBy,
 } from '../models/marvelApiInterface';
 import { Observable, catchError, finalize } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { LoadingService } from './loading.service';
 import { PaginatorService } from './paginator.service';
-type allOrderTypes =
-  | CharactersOrderBy
-  | SeriesOrderBy
-  | ComicsOrderBy
-  | EventsOrderBy;
 
 @Injectable({
   providedIn: 'root',
@@ -52,13 +39,13 @@ export class MarvelAPIService {
   }
 
   // internal generic method for fetch data
-  private getData<ResultType extends MarvelApiResultTypes>(
-    dataParams: getDataParamsInterface
+  public getData<ResultType extends MarvelApiResultTypes>(
+    dataType: MarvelApiDatatypes
   ): Signal<MarvelApiCharactersInterface<ResultType>> {
     this._loadingService.startLoading();
 
     // update URL with parameters
-    const url: string = this.handleUrl(dataParams);
+    const url: string = this.handleUrl(dataType);
     const obs: Observable<MarvelApiCharactersInterface<ResultType>> = this._http
       .get<MarvelApiCharactersInterface<ResultType>>(url)
       .pipe(
@@ -87,9 +74,9 @@ export class MarvelAPIService {
     return result;
   }
 
-  private getDataById<ResultType extends MarvelApiResultTypes>(
+  public getDataById<ResultType extends MarvelApiResultTypes>(
     dataType: MarvelApiDatatypes,
-    id: number
+    id: string
   ): Signal<MarvelApiCharactersInterface<ResultType>> {
     this._loadingService.startLoading();
 
@@ -110,51 +97,13 @@ export class MarvelAPIService {
     return toSignal(obs) as Signal<MarvelApiCharactersInterface<ResultType>>;
   }
 
-  public getCharacters(
-    order: CharactersOrderBy = 'name'
-  ): Signal<CharactersResult[]> {
-    const dataSignal = this.getData<CharactersResult>({
-      dataType: 'characters',
-    });
-    return computed(() => dataSignal()?.data?.results);
-  }
-
-  public getSeries(
-    pageNum: number = 1,
-    order: SeriesOrderBy = 'title'
-  ): Signal<SeriesResult[]> {
-    const dataSignal = this.getData<SeriesResult>({
-      dataType: 'series',
-    });
-    return computed(() => dataSignal()?.data?.results);
-  }
-
-  public getComics(
-    pageNum: number = 1,
-    order: ComicsOrderBy = 'title'
-  ): Signal<ComicsResult[]> {
-    const dataSignal = this.getData<ComicsResult>({
-      dataType: 'comics',
-    });
-    return computed(() => dataSignal()?.data?.results);
-  }
-
-  public getEvents(
-    pageNum: number = 1,
-    order: EventsOrderBy = 'name'
-  ): Signal<EventsResult[]> {
-    const dataSignal = this.getData<EventsResult>({ dataType: 'events' });
-    return computed(() => dataSignal()?.data?.results);
-  }
-
   public get footerContent() {
     return this._footerContent;
   }
 
-  private handleUrl(dataParams: getDataParamsInterface): string {
+  private handleUrl(dataType: MarvelApiDatatypes): string {
     const { pageNumber, itemsPerPage, offset } =
       this._paginatorService.pageInfo();
-    const { dataType } = dataParams;
 
     if (this.mode === 'local')
       return `data/${dataType}/page_${pageNumber}.json`;
@@ -171,7 +120,4 @@ export class MarvelAPIService {
   }
 }
 
-interface getDataParamsInterface {
-  dataType: MarvelApiDatatypes;
-}
 type FetchMode = 'URL' | 'local';

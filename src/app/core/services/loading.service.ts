@@ -1,4 +1,4 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -7,9 +7,6 @@ export class LoadingService {
   private _loading = signal<boolean>(false);
   private _progress = signal<number>(0);
 
-  constructor() {
-    effect(() => console.log(`loading: ${this._progress()}%`));
-  }
   public get progress() {
     return this._progress.asReadonly();
   }

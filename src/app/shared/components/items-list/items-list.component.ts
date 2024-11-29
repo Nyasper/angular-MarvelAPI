@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  effect,
-  Signal,
-} from '@angular/core';
+import { Component, inject, input, Signal } from '@angular/core';
 import { ItemComponent } from './item/item.component';
 import type { ItemList } from '../../../core/models/itemsListInteface';
 
@@ -18,7 +11,6 @@ import { CharactersResult } from '../../../core/models/marvelApiInterface';
 
 @Component({
   selector: 'app-items-list',
-  standalone: true,
   imports: [
     ItemComponent,
     FooterComponent,

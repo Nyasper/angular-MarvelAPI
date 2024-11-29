@@ -145,24 +145,30 @@ export interface Thumbnail {
   extension: string;
 }
 
-interface Comics {
+export interface Comics {
   available: number;
   collectionURI: string;
   items: comicItem[];
   returned: number;
 }
 
-interface Series {
+export interface Series {
   available: number;
   collectionURI: string;
   items: serieItem[];
   returned: number;
 }
 
-interface Stories {
+export interface Stories {
   available: number;
   collectionURI: string;
   items: storyItem[];
+  returned: number;
+}
+export interface Events {
+  available: number;
+  collectionURI: string;
+  items: eventItem[];
   returned: number;
 }
 
@@ -182,24 +188,17 @@ interface storyItem {
   type: string;
 }
 
-interface Events {
-  available: number;
-  collectionURI: string;
-  items: eventItem[];
-  returned: number;
-}
-
 interface eventItem {
   resourceURI: string;
   name: string;
 }
 
-interface Url {
+export interface Url {
   type: string;
   url: string;
 }
 
-interface Characters {
+export interface Characters {
   available: number;
   collectionURI: string;
   items: CharactersItems[];
@@ -211,7 +210,7 @@ interface CharactersItems {
   name: string;
 }
 
-interface Creators {
+export interface Creators {
   available: number;
   collectionURI: string;
   items: CreatorsItem[];

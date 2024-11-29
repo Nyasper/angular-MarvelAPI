@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-details',
-  standalone: true,
   imports: [],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
@@ -16,6 +15,5 @@ export class DetailsComponent {
   constructor() {
     const obs = toSignal(this.route.paramMap);
     this.routeParam = computed(() => obs()?.get('id') ?? '');
-    console.log('el id es:', this.routeParam());
   }
 }
