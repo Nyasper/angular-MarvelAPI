@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { NavItemComponent } from './nav-item/nav-item.component';
 import { MenubarModule } from 'primeng/menubar';
-import type { MenuItem } from 'primeng/api';
-import type { CharactersOrderBy } from '../../../core/models/marvelApiInterface';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+import type { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-navbar',

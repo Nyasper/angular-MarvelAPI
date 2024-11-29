@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Signal, inject } from '@angular/core';
+import { Injectable, inject, type Signal } from '@angular/core';
 import type {
-  MarvelApiDatatypes,
+  MarvelApiResultsType,
   MarvelApiCharactersInterface,
   MarvelApiResultTypes,
-} from '../models/marvelApiInterface';
+} from '../models/marvelAPI/common';
 import { Observable, catchError, finalize } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { LoadingService } from './loading.service';
@@ -40,7 +40,7 @@ export class MarvelAPIService {
 
   // internal generic method for fetch data
   public getData<ResultType extends MarvelApiResultTypes>(
-    dataType: MarvelApiDatatypes
+    dataType: MarvelApiResultsType
   ): Signal<MarvelApiCharactersInterface<ResultType>> {
     this._loadingService.startLoading();
 
@@ -75,7 +75,7 @@ export class MarvelAPIService {
   }
 
   public getDataById<ResultType extends MarvelApiResultTypes>(
-    dataType: MarvelApiDatatypes,
+    dataType: MarvelApiResultsType,
     id: string
   ): Signal<MarvelApiCharactersInterface<ResultType>> {
     this._loadingService.startLoading();
@@ -101,7 +101,7 @@ export class MarvelAPIService {
     return this._footerContent;
   }
 
-  private handleUrl(dataType: MarvelApiDatatypes): string {
+  private handleUrl(dataType: MarvelApiResultsType): string {
     const { pageNumber, itemsPerPage, offset } =
       this._paginatorService.pageInfo();
 

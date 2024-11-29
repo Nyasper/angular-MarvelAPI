@@ -5,7 +5,6 @@ import {
   effect,
   inject,
 } from '@angular/core';
-import { MarvelAPIService } from '../../core/services/marvel-api.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { RenderItemDetailsComponent } from '../../shared/components/render-item-details/render-item-details.component';

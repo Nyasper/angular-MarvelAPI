@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { PaginatorModule, type PaginatorState } from 'primeng/paginator';
 import { PaginatorService } from '../../../core/services/paginator.service';
 import { Router } from '@angular/router';
 

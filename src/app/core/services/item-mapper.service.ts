@@ -1,11 +1,9 @@
-import { Injectable, Signal, computed } from '@angular/core';
+import { Injectable, computed, type Signal } from '@angular/core';
 import type { ItemList } from '../models/itemsListInteface';
-import type {
-  CharactersResult,
-  SeriesResult,
-  ComicsResult,
-  EventsResult,
-} from '../models/marvelApiInterface';
+import type { CharactersResult } from '../models/marvelAPI/characters';
+import type { ComicsResult } from '../models/marvelAPI/comics';
+import type { SeriesResult } from '../models/marvelAPI/series';
+import type { EventsResult } from '../models/marvelAPI/events';
 
 @Injectable({
   providedIn: 'root',

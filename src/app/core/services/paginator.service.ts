@@ -3,11 +3,11 @@ import {
   effect,
   inject,
   Injectable,
-  Signal,
   signal,
+  type Signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import type { PageInfo } from '../models/pageInfo.interface';
 
 @Injectable({

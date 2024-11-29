@@ -4,14 +4,14 @@ import {
   computed,
   effect,
   input,
-  Signal,
+  type Signal,
 } from '@angular/core';
-import {
+import type {
   Characters,
   Comics,
-  Creators,
   Series,
-} from '../../../core/models/marvelApiInterface';
+  Events,
+} from '../../../core/models/marvelAPI/common';
 
 @Component({
   selector: 'app-render-item-details',
@@ -27,29 +27,29 @@ export class RenderItemDetailsComponent {
     comics: false,
     series: false,
     events: false,
+    stories: false,
+    creators: false,
+
+    urls: true,
   });
 
-  public comics: Signal<Comics> = computed(() => this.data().comics);
+  public characters: Signal<Comics> = computed(() => this.data().characters);
+  public comics: Signal<Characters> = computed(() => this.data().comics);
+  public series: Signal<Series> = computed(() => this.data().series);
+  public events: Signal<Events> = computed(() => this.data().events);
 
   constructor() {
     effect(() => {
-      console.log('series:', this.comics());
+      console.log('comics:', this.comics());
     });
   }
-
-  private readonly allowedKeys: string[] = [
-    'characters',
-    'comics',
-    'series',
-    'events',
-    'stories',
-    'creators',
-    'urls',
-  ];
 }
 interface KeysToRender {
   characters: boolean;
   comics?: boolean;
   series?: boolean;
   events?: boolean;
+  stories?: boolean;
+  creators?: boolean;
+  urls?: boolean;
 }

@@ -1,8 +1,8 @@
-import { computed, inject, Injectable, Signal } from '@angular/core';
-import {
+import { computed, inject, Injectable, type Signal } from '@angular/core';
+import type {
   CharactersOrderBy,
   CharactersResult,
-} from '../core/models/marvelApiInterface';
+} from '../core/models/marvelAPI/characters';
 import { MarvelAPIService } from '../core/services/marvel-api.service';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class CharactersService {
     const dataSignal = this.marvelApi.getData<CharactersResult>('characters');
     return computed(() => dataSignal()?.data?.results);
   }
-  public getCharacterById(id: string) {
+  public getCharacterById(id: string): Signal<CharactersResult> {
     const charaSignal = this.marvelApi.getDataById<CharactersResult>(
       'characters',
       id

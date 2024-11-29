@@ -4,11 +4,9 @@ import {
   computed,
   effect,
   input,
-  Signal,
+  type Signal,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MarvelAPIService } from '../../../core/services/marvel-api.service';
-import { Comics } from '../../../core/models/marvelApiInterface';
+import type { Comics } from '../../../core/models/marvelAPI/common';
 
 @Component({
   selector: 'app-item-details',

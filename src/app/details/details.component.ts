@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DetailsComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
-  routeParam: Signal<string>;
+  routeParam;
 
   constructor() {
     const obs = toSignal(this.route.paramMap);

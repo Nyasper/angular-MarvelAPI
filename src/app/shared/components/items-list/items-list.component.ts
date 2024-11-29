@@ -1,4 +1,4 @@
-import { Component, inject, input, Signal } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ItemComponent } from './item/item.component';
 import type { ItemList } from '../../../core/models/itemsListInteface';
 
@@ -7,7 +7,6 @@ import { PaginatorService } from '../../../core/services/paginator.service';
 import { FooterComponent } from '../footer/footer.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
-import { CharactersResult } from '../../../core/models/marvelApiInterface';
 
 @Component({
   selector: 'app-items-list',
@@ -31,7 +30,7 @@ export class ItemsListComponent {
   // public readonly pageNumParam: Signal<number>;
 
   itemsList = input.required<ItemList[]>();
-  getDataFunction = input<(pageNumber: number) => Signal<CharactersResult[]>>();
+  getDataFunction = input();
   loading = this._loadingService.loading;
 
   onScroll() {

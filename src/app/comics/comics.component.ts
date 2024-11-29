@@ -1,7 +1,6 @@
-import { Component, Signal, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ItemsListComponent } from '../shared/components/items-list/items-list.component';
 import { ItemMapperService } from '../core/services/item-mapper.service';
-import type { ItemList } from '../core/models/itemsListInteface';
 import { ComicsService } from './comics.service';
 
 @Component({
@@ -15,7 +14,5 @@ export class ComicsComponent {
   private data = this.comicsService.getComics(1);
   private itemDataMapper: ItemMapperService = inject(ItemMapperService);
 
-  public itemsInfo: Signal<ItemList[]> = this.itemDataMapper.ComicsToItemList(
-    this.data
-  );
+  public itemsInfo = this.itemDataMapper.ComicsToItemList(this.data);
 }
