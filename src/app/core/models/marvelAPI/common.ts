@@ -4,7 +4,6 @@ import type { EventsResult } from './events';
 import type { SeriesResult } from './series';
 
 export interface MarvelApiCharactersInterface<
-  // restrict
   ResultType extends MarvelApiResultTypes
 > {
   code: number;
@@ -40,55 +39,6 @@ export interface Thumbnail {
   path: string;
   extension: string;
 }
-
-export interface Comics {
-  available: number;
-  collectionURI: string;
-  items: comicItem[];
-  returned: number;
-}
-
-export interface Series {
-  available: number;
-  collectionURI: string;
-  items: serieItem[];
-  returned: number;
-}
-
-export interface Stories {
-  available: number;
-  collectionURI: string;
-  items: storyItem[];
-  returned: number;
-}
-export interface Events {
-  available: number;
-  collectionURI: string;
-  items: eventItem[];
-  returned: number;
-}
-
-export interface comicItem {
-  resourceURI: string;
-  name: string;
-}
-
-export interface serieItem {
-  resourceURI: string;
-  name: string;
-}
-
-export interface storyItem {
-  resourceURI: string;
-  name: string;
-  type: string;
-}
-
-export interface eventItem {
-  resourceURI: string;
-  name: string;
-}
-
 export interface Url {
   type: string;
   url: string;
@@ -100,12 +50,30 @@ export interface Characters {
   items: CharactersItems[];
   returned: number;
 }
-
-export interface CharactersItems {
-  resourceURI: string;
-  name: string;
+export interface Comics {
+  available: number;
+  collectionURI: string;
+  items: comicItem[];
+  returned: number;
 }
-
+export interface Series {
+  available: number;
+  collectionURI: string;
+  items: serieItem[];
+  returned: number;
+}
+export interface Events {
+  available: number;
+  collectionURI: string;
+  items: eventItem[];
+  returned: number;
+}
+export interface Stories {
+  available: number;
+  collectionURI: string;
+  items: storyItem[];
+  returned: number;
+}
 export interface Creators {
   available: number;
   collectionURI: string;
@@ -113,6 +81,27 @@ export interface Creators {
   returned: number;
 }
 
+export interface CharactersItems {
+  resourceURI: string;
+  name: string;
+}
+export interface comicItem {
+  resourceURI: string;
+  name: string;
+}
+export interface serieItem {
+  resourceURI: string;
+  name: string;
+}
+export interface eventItem {
+  resourceURI: string;
+  name: string;
+}
+export interface storyItem {
+  resourceURI: string;
+  name: string;
+  type: string;
+}
 export interface CreatorsItem {
   resourceURI: string;
   name: string;

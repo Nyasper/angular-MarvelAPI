@@ -1,26 +1,9 @@
-<h1>Character: deta</h1>
-<h2>Data:</h2>
+<h1>Character details:</h1>
 <!-- <img [src]="imgSrc()" /> -->
-<!-- <h2>Series: {{ series().available }}</h2>
-<ul>
-  @for (serie of series().items; track serie.name) {
-  <li>{{ serie.name }}</li>
-  }
-</ul> -->
-
-<h2>Stories:</h2>
 <app-render-item-details
   [data]="data()"
-  [keysToRenderI]="{ characters: true, comics: true, series: true }"
+  [propsToRender]="{
+    characters: false,
+    creators: false
+  }"
 />
-<!-- <ul>
-  @for (storie of stories().items; track storie.name) {
-  <li>{{ storie.name }}</li>
-  }
-</ul> -->
-<h2>Urls:</h2>
-<ul>
-  @for (url of urls(); track url.url) {
-  <li>{{ url.type }}: {{ url.url }}</li>
-  }
-</ul>

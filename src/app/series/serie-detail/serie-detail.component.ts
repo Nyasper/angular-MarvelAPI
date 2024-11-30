@@ -2,39 +2,27 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
 } from '@angular/core';
+import { SeriesService } from '../series.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { RenderItemDetailsComponent } from '../../shared/components/render-item-details/render-item-details.component';
-import { CharactersService } from '../characters.service';
 
 @Component({
-  selector: 'app-character-detail',
+  selector: 'app-serie-detail',
   imports: [RenderItemDetailsComponent],
-  templateUrl: './character-detail.component.html',
-  styleUrl: './character-detail.component.css',
+  templateUrl: './serie-detail.component.html',
+  styleUrl: './serie-detail.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterDetailComponent {
-  public readonly charactersService: CharactersService =
-    inject(CharactersService);
+export class SerieDetailComponent {
+  public readonly seriesService: SeriesService = inject(SeriesService);
   private readonly route: ActivatedRoute = inject(ActivatedRoute);
   private readonly routeParam = toSignal(this.route.paramMap);
 
   public readonly currentId = computed(
     () => this.routeParam()?.get('id') ?? ''
   );
-  public readonly data = this.charactersService.getCharacterById(
-    this.currentId()
-  );
-
-  constructor() {
-    effect(() => {
-      if (this.data()) {
-        console.log('chara data:', this.data());
-      }
-    });
-  }
+  public readonly data = this.seriesService.getSerieById(this.currentId());
 }

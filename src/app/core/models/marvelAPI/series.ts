@@ -13,20 +13,20 @@ export interface SeriesResult {
   title: string;
   description: any;
   resourceURI: string;
-  urls: Url[];
   startYear: number;
   rating: string;
   endYear: number;
   type: string;
   modified: string;
-  thumbnail: Thumbnail;
-  creators: Creators;
   characters: Characters;
-  stories: Stories;
   comics: Comics;
   events: Events;
+  stories: Stories;
+  creators: Creators;
   next: any;
   previous: any;
+  urls: Url[];
+  thumbnail: Thumbnail;
 }
 
 export type SeriesOrderBy =

@@ -15,18 +15,18 @@ export interface EventsResult {
   title: string;
   description: string;
   resourceURI: string;
-  urls: Url[];
   modified: string;
   start?: string;
   end?: string;
-  thumbnail: Thumbnail;
-  creators: Creators;
   characters: Characters;
-  stories: Stories;
   comics: Comics;
   series: Series;
+  stories: Stories;
+  creators: Creators;
   next?: NextEvents;
   previous?: PreviousEvents;
+  thumbnail: Thumbnail;
+  urls: Url[];
 }
 
 export type EventsOrderBy =

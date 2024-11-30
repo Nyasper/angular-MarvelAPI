@@ -5,12 +5,12 @@ export interface CharactersResult {
   name: string;
   description: string;
   modified: string;
-  thumbnail: Thumbnail;
   resourceURI: string;
+  thumbnail: Thumbnail;
   comics: Comics;
   series: Series;
-  stories: Stories;
   events: Events;
+  stories: Stories;
   urls: Url[];
 }
 

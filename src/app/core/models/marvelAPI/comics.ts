@@ -27,9 +27,12 @@ export interface ComicsResult {
   format: string;
   pageCount: number;
   textObjects: TextObject[];
-  resourceURI: string;
-  urls: Url[];
+  characters: Characters;
   series: Series;
+  events: Events;
+  stories: Stories;
+  creators: Creators;
+  resourceURI: string;
   variants: Variant[];
   collections: any[];
   collectedIssues: any[];
@@ -37,10 +40,7 @@ export interface ComicsResult {
   prices: Price[];
   thumbnail: Thumbnail;
   images: Thumbnail[];
-  creators: Creators;
-  characters: Characters;
-  stories: Stories;
-  events: Events;
+  urls: Url[];
 }
 
 export type ComicsOrderBy =
