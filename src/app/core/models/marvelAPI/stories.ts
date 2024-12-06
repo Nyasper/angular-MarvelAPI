@@ -1,45 +1,35 @@
 import type { CharactersList } from './characters';
-import type { ComicsList } from './comics';
-import type { Image, Url } from './common';
+import type { ComicItem, ComicsList } from './comics';
 import type { CreatorsList } from './creators';
+import type { Image } from './common';
 import type { SeriesList } from './series';
-import type { StoriesList } from './stories';
 
-export interface EventsResult {
+export interface StoriesResult {
   id: number;
   title: string;
   description: string;
   resourceURI: string;
-  urls: Url[];
+  type: string;
   modified: string;
-  start?: Date;
-  end?: Date;
   thumbnail: Image;
   comics: ComicsList;
-  stories: StoriesList;
   series: SeriesList;
+  events: Event;
   characters: CharactersList;
   creators: CreatorsList;
-  next?: EventItem;
-  previous?: EventItem;
+  originalissue: ComicItem;
 }
 
-export interface EventsList {
+export interface StoriesList {
   available: number;
   collectionURI: string;
-  items: EventItem[];
+  items: StoryItem[];
   returned: number;
 }
-
-export interface EventItem {
+export interface StoryItem {
   resourceURI: string;
   name: string;
+  type: string;
 }
 
-export type EventsOrderBy =
-  | 'name'
-  | '-name'
-  | 'startDate'
-  | '-startDate'
-  | 'modified'
-  | '-modified';
+export type StoriesOrderBy = 'id' | 'modified' | '-id' | '-modified';

@@ -19,7 +19,7 @@ export class ComicsService {
     return computed(() => dataSignal()?.data?.results);
   }
   public getComicById(id: string): Signal<ComicsResult> {
-    const comicSignal = this.marvelApi.getDataById<ComicsResult>('comics', id);
-    return computed(() => comicSignal()?.data?.results[0]);
+    const dataSignal = this.marvelApi.getDataById<ComicsResult>('comics', id);
+    return computed(() => dataSignal()?.data?.results[0]);
   }
 }

@@ -1,0 +1,18 @@
+.searchBarContainer {
+  display: flex;
+  align-items: center;
+  background-color: rgb(23, 53, 53);
+  padding: 10px;
+  gap: 15px;
+  /* justify-content: center; */
+
+  img {
+  }
+}
+
+/* input {
+  padding: 5px 10px;
+  color: white;
+  font-size: 1.2em;
+  border-radius: 10px;
+} */

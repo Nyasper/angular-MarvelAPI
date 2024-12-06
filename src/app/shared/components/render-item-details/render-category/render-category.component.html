@@ -1,0 +1,12 @@
+@if (data() && data()!.available > 0) {
+<h3>{{ categoryName() }}: {{ data()?.available }}</h3>
+<ul>
+  @for (item of data()!.items; track item.resourceURI) {
+  <li>
+    <a [routerLink]="item.resourceURI">
+      {{ item.name }}
+    </a>
+  </li>
+  }
+</ul>
+}

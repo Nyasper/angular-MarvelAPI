@@ -18,7 +18,7 @@ export class SeriesService {
     return computed(() => dataSignal()?.data?.results);
   }
   public getSerieById(id: string): Signal<SeriesResult> {
-    const serieSignal = this.marvelApi.getDataById<SeriesResult>('series', id);
-    return computed(() => serieSignal()?.data?.results[0]);
+    const dataSignal = this.marvelApi.getDataById<SeriesResult>('series', id);
+    return computed(() => dataSignal()?.data?.results[0]);
   }
 }

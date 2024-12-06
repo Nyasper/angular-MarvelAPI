@@ -1,32 +1,41 @@
-import type {
-  Characters,
-  Comics,
-  Creators,
-  Events,
-  Stories,
-  Thumbnail,
-  Url,
-} from './common';
+import type { CharactersList } from './characters';
+import type { ComicsList } from './comics';
+import type { Image, Url } from './common';
+import type { CreatorsList } from './creators';
+import type { EventsList } from './events';
+import type { StoriesList } from './stories';
 
 export interface SeriesResult {
   id: number;
   title: string;
   description: any;
   resourceURI: string;
-  startYear: number;
-  rating: string;
-  endYear: number;
-  type: string;
-  modified: string;
-  characters: Characters;
-  comics: Comics;
-  events: Events;
-  stories: Stories;
-  creators: Creators;
-  next: any;
-  previous: any;
   urls: Url[];
-  thumbnail: Thumbnail;
+  startYear: number;
+  endYear: number;
+  rating: string;
+  modified: Date;
+  thumbnail: Image;
+  type: string;
+  comics: ComicsList;
+  stories: StoriesList;
+  events: EventsList;
+  characters: CharactersList;
+  creators: CreatorsList;
+  next?: SerieItem;
+  previous?: SerieItem;
+}
+
+export interface SeriesList {
+  available: number;
+  collectionURI: string;
+  items: SerieItem[];
+  returned: number;
+}
+
+export interface SerieItem {
+  resourceURI: string;
+  name: string;
 }
 
 export type SeriesOrderBy =

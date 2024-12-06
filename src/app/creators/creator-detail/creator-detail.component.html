@@ -1,1 +1,8 @@
-<p>creator-detail works!</p>
+<h1>Character details:</h1>
+<app-render-item-details
+  [data]="data()"
+  [propsToRender]="{
+    characters: false,
+    creators: false
+  }"
+/>

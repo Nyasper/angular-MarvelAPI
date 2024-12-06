@@ -6,7 +6,7 @@ import {
   input,
   type Signal,
 } from '@angular/core';
-import type { Comics } from '../../../core/models/marvelAPI/common';
+import type { ComicsList } from '../../../core/models/marvelAPI/comics';
 
 @Component({
   selector: 'app-item-details',
@@ -28,7 +28,7 @@ export class ItemDetailsComponent {
     urls: true,
   });
 
-  public comics: Signal<Comics> = computed(() => this.data().comics);
+  public comics: Signal<ComicsList> = computed(() => this.data().comics);
 
   constructor() {
     effect(() => {

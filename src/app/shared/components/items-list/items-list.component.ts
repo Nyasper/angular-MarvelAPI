@@ -1,4 +1,12 @@
-import { Component, inject, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  EventEmitter,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { ItemComponent } from './item/item.component';
 import type { ItemList } from '../../../core/models/itemsListInteface';
 
@@ -7,6 +15,7 @@ import { PaginatorService } from '../../../core/services/paginator.service';
 import { FooterComponent } from '../footer/footer.component';
 import { LoadingComponent } from '../loading/loading.component';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-items-list',
@@ -15,6 +24,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
     FooterComponent,
     LoadingComponent,
     InfiniteScrollDirective,
+    SearchBarComponent,
   ],
   templateUrl: './items-list.component.html',
   styleUrl: './items-list.component.css',
@@ -26,12 +36,21 @@ export class ItemsListComponent {
   private readonly _paginatorService: PaginatorService =
     inject(PaginatorService);
 
-  // public readonly orderByParam: Signal<string>;
-  // public readonly pageNumParam: Signal<number>;
+  public itemsList = input.required<ItemList[]>();
+  public searchValue = signal<string>('');
 
-  itemsList = input.required<ItemList[]>();
-  getDataFunction = input();
-  loading = this._loadingService.loading;
+  public handleOutput(e: string): void {
+    this.searchValue.set(e);
+  }
+
+  public filteredData = computed(() =>
+    this.itemsList()?.filter((item) =>
+      item.name.toLowerCase().includes(this.searchValue().toLowerCase())
+    )
+  );
+
+  public getDataFunction = input();
+  public loading = this._loadingService.loading;
 
   onScroll() {
     console.log('ejecutando on scroll');

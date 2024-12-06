@@ -19,7 +19,7 @@ export class EventsService {
     return computed(() => dataSignal()?.data?.results);
   }
   public getEventById(id: string): Signal<EventsResult> {
-    const eventSignal = this.marvelApi.getDataById<EventsResult>('events', id);
-    return computed(() => eventSignal()?.data?.results[0]);
+    const dataSignal = this.marvelApi.getDataById<EventsResult>('events', id);
+    return computed(() => dataSignal()?.data?.results[0]);
   }
 }

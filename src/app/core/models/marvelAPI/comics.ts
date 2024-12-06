@@ -1,15 +1,9 @@
-import type {
-  Characters,
-  Creators,
-  Events,
-  Price,
-  Series,
-  Stories,
-  TextObject,
-  Thumbnail,
-  Url,
-  Variant,
-} from './common';
+import type { CharactersList } from './characters';
+import type { TextObject, Image, Url } from './common';
+import type { CreatorsList } from './creators';
+import type { EventsList } from './events';
+import type { SerieItem, SeriesList } from './series';
+import type { StoriesList } from './stories';
 
 export interface ComicsResult {
   id: number;
@@ -18,7 +12,7 @@ export interface ComicsResult {
   issueNumber: number;
   variantDescription: string;
   description: string;
-  modified: string;
+  modified: Date;
   isbn: string;
   upc: string;
   diamondCode: string;
@@ -27,20 +21,42 @@ export interface ComicsResult {
   format: string;
   pageCount: number;
   textObjects: TextObject[];
-  characters: Characters;
-  series: Series;
-  events: Events;
-  stories: Stories;
-  creators: Creators;
   resourceURI: string;
-  variants: Variant[];
-  collections: any[];
-  collectedIssues: any[];
-  dates: Date[];
-  prices: Price[];
-  thumbnail: Thumbnail;
-  images: Thumbnail[];
   urls: Url[];
+  series: SerieItem;
+  variants: ComicItem[];
+  collections: ComicItem[];
+  collectedIssues: ComicItem[];
+  dates: ComicDate[];
+  prices: ComicsPrice[];
+  thumbnail: Image;
+  images: Image[];
+  creators: CreatorsList;
+  characters: CharactersList;
+  stories: StoriesList;
+  events: EventsList;
+}
+
+export interface ComicsList {
+  available: number;
+  collectionURI: string;
+  items: ComicItem[];
+  returned: number;
+}
+
+export interface ComicItem {
+  name: string;
+  resourceURI: string;
+}
+
+interface ComicDate {
+  type: string;
+  date: Date;
+}
+
+interface ComicsPrice {
+  type: string;
+  price: number;
 }
 
 export type ComicsOrderBy =

@@ -25,7 +25,17 @@ export class NavbarComponent {
     { label: 'series', routerLink: 'series', queryParams: this.defaultParams },
     { label: 'comics', routerLink: 'comics', queryParams: this.defaultParams },
     { label: 'events', routerLink: 'events', queryParams: this.defaultParams },
+    {
+      label: 'stories',
+      routerLink: 'stories',
+      queryParams: this.defaultParams,
+    },
+    {
+      label: 'creators',
+      routerLink: 'creators',
+      queryParams: this.defaultParams,
+    },
     { label: 'about', routerLink: 'about' },
-    { label: 'otro', items: [{ label: 'subMenu1' }] },
+    // { label: 'otro', items: [{ label: 'subMenu1' }] },
   ];
 }

@@ -18,10 +18,10 @@ export class CharactersService {
     return computed(() => dataSignal()?.data?.results);
   }
   public getCharacterById(id: string): Signal<CharactersResult> {
-    const charaSignal = this.marvelApi.getDataById<CharactersResult>(
+    const dataSignal = this.marvelApi.getDataById<CharactersResult>(
       'characters',
       id
     );
-    return computed(() => charaSignal()?.data?.results[0]);
+    return computed(() => dataSignal()?.data?.results[0]);
   }
 }

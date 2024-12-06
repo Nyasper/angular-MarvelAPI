@@ -1,18 +1,24 @@
 @if(loading()) {
 <app-loading />
 } @else {
-<ul
-  infiniteScroll
-  (scrolled)="onScroll()"
-  [scrollWindow]="true"
-  [infiniteScrollDistance]="2"
-  [infiniteScrollThrottle]="0"
-  [alwaysCallback]="false"
->
-  @for (item of itemsList(); track $index) {
-  <app-item [itemInfo]="item" />
-  }
-</ul>
+<section>
+  <app-search-bar (valueOutput)="handleOutput($event)" />
+  <h2>Buscando: {{ searchValue() }}</h2>
+</section>
+<section>
+  <ul
+    infiniteScroll
+    (scrolled)="onScroll()"
+    [scrollWindow]="true"
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="0"
+    [alwaysCallback]="false"
+  >
+    @for (item of filteredData(); track $index) {
+    <app-item [itemInfo]="item" />
+    }
+  </ul>
+</section>
 <!-- <button (click)="addOnePage()">Cambiar page</button> -->
 <!-- <button (click)="changeSortOrder('age')">Cambiar page</button> -->
 <app-footer />

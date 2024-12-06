@@ -28,6 +28,16 @@ export const routes: Routes = [
       import('./events/events.routes').then((m) => m.EVENTS_ROUTES),
   },
   {
+    path: 'stories',
+    loadChildren: () =>
+      import('./stories/stories.routes').then((m) => m.STORIES_ROUTES),
+  },
+  {
+    path: 'creators',
+    loadChildren: () =>
+      import('./creators/creators.routes').then((m) => m.CREATORS_ROUTES),
+  },
+  {
     path: 'about',
     loadChildren: () =>
       import('./about/about.routes').then((m) => m.ABOUT_ROUTES),

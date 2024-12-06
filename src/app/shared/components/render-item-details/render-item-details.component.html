@@ -2,27 +2,16 @@
 @if (imageSrc()) {
 <h2>Aqui la foto</h2>
 <!-- <img [src]="imageSrc()" /> -->
-} @if (comics()) {
-<h3>Comics: {{ comics()?.available }}</h3>
-<ul>
-  @for (comic of comics()?.items; track comic.name) {
-  <li>{{ comic.name }}</li>
-  }
-</ul>
-} @if (characters()) {
-<h3>Characters: {{ characters()?.available }}</h3>
-<ul></ul>
-} @if (series()) {
-<h3>Series: {{ series()?.available }}</h3>
-} @if (events()) {
-<h3>Events: {{ events()?.available }}</h3>
-} @if (stories()) {
-<h3>Stories: {{ stories()?.available }}</h3>
-<ul></ul>
-} @if (creators()) {
-<h3>Creators: {{ creators()?.available }}</h3>
-<ul></ul>
-} @if (urls()) {
+}
+
+<app-render-category categoryName="Comics" [data]="comics()" />
+<app-render-category categoryName="Characters" [data]="characters()" />
+<app-render-category categoryName="Series" [data]="series()" />
+<app-render-category categoryName="Events" [data]="events()" />
+<app-render-category categoryName="Stories" [data]="stories()" />
+<app-render-category categoryName="Creators" [data]="creators()" />
+
+@if (urls()) {
 <h3>Urls:</h3>
 <ul>
   @for (url of urls(); track url.url) {

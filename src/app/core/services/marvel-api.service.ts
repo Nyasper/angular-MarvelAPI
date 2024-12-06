@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, type Signal } from '@angular/core';
 import type {
-  MarvelApiResultsType,
-  MarvelApiCharactersInterface,
-  MarvelApiResultTypes,
+  MarvelApiDataWrapper,
+  ResultsName,
+  ResultsTypes,
 } from '../models/marvelAPI/common';
 import { Observable, catchError, finalize } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -39,53 +39,49 @@ export class MarvelAPIService {
   }
 
   // internal generic method for fetch data
-  public getData<ResultType extends MarvelApiResultTypes>(
-    dataType: MarvelApiResultsType
-  ): Signal<MarvelApiCharactersInterface<ResultType>> {
+  public getData<ResultType extends ResultsTypes>(
+    dataType: ResultsName
+  ): Signal<MarvelApiDataWrapper<ResultType>> {
     this._loadingService.startLoading();
 
     // update URL with parameters
     const url: string = this.handleUrl(dataType);
-    const obs: Observable<MarvelApiCharactersInterface<ResultType>> = this._http
-      .get<MarvelApiCharactersInterface<ResultType>>(url)
-      .pipe(
-        catchError((error) => {
-          console.error('Error fetching images', error);
-          return [];
-        }),
+    const obs = this._http.get<MarvelApiDataWrapper<ResultType>>(url).pipe(
+      catchError((error) => {
+        console.error('Error fetching images', error);
+        return [];
+      }),
 
-        finalize(() => {
-          this._footerContent = result().copyright;
-          this._loadingService.stopLoading();
-          const { count, limit, offset, total } = result().data;
-          this._paginatorService.pageInfo = {
-            offset,
-            pageNumber: offset / limit + 1,
-            itemsPerPage: limit,
-            totalItems: total,
-            hasNextPage: offset + count < total,
-          };
-        })
-      );
-    const result = toSignal(obs) as Signal<
-      MarvelApiCharactersInterface<ResultType>
-    >;
+      finalize(() => {
+        this._footerContent = result().copyright;
+        this._loadingService.stopLoading();
+        const { count, limit, offset, total } = result().data;
+        this._paginatorService.pageInfo = {
+          offset,
+          pageNumber: offset / limit + 1,
+          itemsPerPage: limit,
+          totalItems: total,
+          hasNextPage: offset + count < total,
+        };
+      })
+    );
+    const result = toSignal(obs) as Signal<MarvelApiDataWrapper<ResultType>>;
 
     return result;
   }
 
-  public getDataById<ResultType extends MarvelApiResultTypes>(
-    dataType: MarvelApiResultsType,
+  public getDataById<ResultType extends ResultsTypes>(
+    dataType: ResultsName,
     id: string
-  ): Signal<MarvelApiCharactersInterface<ResultType>> {
+  ): Signal<MarvelApiDataWrapper<ResultType>> {
     this._loadingService.startLoading();
 
     const urlModified = new URL(this.completeUrl);
     urlModified.pathname = urlModified.pathname.replace('$replace', dataType);
     urlModified.pathname += `/${id}`;
 
-    const obs: Observable<MarvelApiCharactersInterface<ResultType>> = this._http
-      .get<MarvelApiCharactersInterface<ResultType>>(urlModified.href)
+    const obs: Observable<MarvelApiDataWrapper<ResultType>> = this._http
+      .get<MarvelApiDataWrapper<ResultType>>(urlModified.href)
       .pipe(
         catchError((error) => {
           console.error('Error fetching images', error);
@@ -94,14 +90,14 @@ export class MarvelAPIService {
 
         finalize(() => this._loadingService.stopLoading())
       );
-    return toSignal(obs) as Signal<MarvelApiCharactersInterface<ResultType>>;
+    return toSignal(obs) as Signal<MarvelApiDataWrapper<ResultType>>;
   }
 
   public get footerContent() {
     return this._footerContent;
   }
 
-  private handleUrl(dataType: MarvelApiResultsType): string {
+  private handleUrl(dataType: ResultsName): string {
     const { pageNumber, itemsPerPage, offset } =
       this._paginatorService.pageInfo();
 
